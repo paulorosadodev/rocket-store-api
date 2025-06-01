@@ -17,6 +17,10 @@ export class ProductController {
 
     @Get()
     findAll(@Query("category") category?: string, @Query("inStock") inStock?: string): Promise<Product[]> {
+        if (category && inStock === "true") {
+            return this.productService.findByCategoryAndInStock(category);
+        }
+        
         if (category) {
             return this.productService.findByCategory(category);
         }

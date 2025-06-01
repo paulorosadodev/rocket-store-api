@@ -10,7 +10,6 @@ export class ProductService {
     constructor(private readonly prisma: PrismaService) {}
 
     async create(createProductDto: CreateProductDto): Promise<Product> {
-
         const validCategory = findCategoryByValueOrLabel(createProductDto.category);
         if (!validCategory) {
             throw new BadRequestException(getInvalidCategoryErrorMessage());
@@ -103,6 +102,28 @@ export class ProductService {
     async findInStock(): Promise<Product[]> {
         const result = await this.prisma.product.findMany({
             where: {
+                inStock: true,
+                quantity: {
+                    gt: 0,
+                },
+            },
+            orderBy: {
+                name: "asc",
+            },
+        });
+        return result as Product[];
+    }
+
+    async findByCategoryAndInStock(category: string): Promise<Product[]> {
+        const categoryEnum = findCategoryByValueOrLabel(category);
+        
+        if (!categoryEnum) {
+            throw new NotFoundException(getInvalidCategoryErrorMessage());
+        }
+
+        const result = await this.prisma.product.findMany({
+            where: {
+                category: categoryEnum,
                 inStock: true,
                 quantity: {
                     gt: 0,
