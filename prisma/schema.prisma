@@ -8,16 +8,29 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+enum ProductCategory {
+    ELETRONICOS
+    ROUPAS
+    LIVROS
+    CASA_JARDIM
+    ESPORTES
+    BELEZA
+    BRINQUEDOS
+    AUTOMOTIVO
+    ALIMENTOS_BEBIDAS
+    SAUDE
+}
+
 model Product {
-    id          String   @id @default(cuid())
+    id          String          @id @default(cuid())
     name        String
     description String?
     price       Float
-    category    String?
-    inStock     Boolean  @default(true)
-    quantity    Int      @default(0)
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+    category    ProductCategory
+    inStock     Boolean         @default(true)
+    quantity    Int             @default(0)
+    createdAt   DateTime        @default(now())
+    updatedAt   DateTime        @updatedAt
 
     @@map("products")
 }

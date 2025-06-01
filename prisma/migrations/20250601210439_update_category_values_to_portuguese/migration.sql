@@ -1,0 +1,2 @@
+-- Update ProductCategory enum to use Portuguese values
+-- Since there are no existing products, this is essentially a no-op migration
