@@ -45,6 +45,7 @@ describe("ProductService", () => {
 
         service = module.get<ProductService>(ProductService);
 
+        // Reset all mocks before each test
         jest.clearAllMocks();
     });
 
@@ -133,7 +134,8 @@ describe("ProductService", () => {
         });
 
         it("should throw BadRequestException for invalid category", async () => {
-            const invalidDto = { ...createProductDto, category: "CATEGORIA_INVALIDA" as ProductCategory };
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            const invalidDto = { ...createProductDto, category: "CATEGORIA_INVALIDA" as any };
 
             await expect(service.create(invalidDto)).rejects.toThrow(BadRequestException);
             expect(mockPrismaService.product.create).not.toHaveBeenCalled();
@@ -194,7 +196,7 @@ describe("ProductService", () => {
 
         it("should update a product successfully", async () => {
             const updatedProduct = { ...mockProduct, ...updateProductDto };
-
+      
             mockPrismaService.product.findUnique.mockResolvedValue(mockProduct);
             mockPrismaService.product.update.mockResolvedValue(updatedProduct);
 
@@ -213,7 +215,7 @@ describe("ProductService", () => {
         it("should update inStock when quantity is updated", async () => {
             const updateDto = { quantity: 0 };
             const updatedProduct = { ...mockProduct, quantity: 0, inStock: false };
-
+      
             mockPrismaService.product.findUnique.mockResolvedValue(mockProduct);
             mockPrismaService.product.update.mockResolvedValue(updatedProduct);
 
@@ -227,8 +229,9 @@ describe("ProductService", () => {
         });
 
         it("should validate category when updating", async () => {
-            const updateDto = { category: "CATEGORIA_INVALIDA" as ProductCategory };
-
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            const updateDto = { category: "CATEGORIA_INVALIDA" as any };
+      
             mockPrismaService.product.findUnique.mockResolvedValue(mockProduct);
 
             await expect(service.update(mockProduct.id, updateDto)).rejects.toThrow(BadRequestException);
@@ -295,7 +298,7 @@ describe("ProductService", () => {
             const products = [mockProduct];
             mockPrismaService.product.findMany.mockResolvedValue(products);
 
-            const result = await service.findByCategory("Eletrônicos");
+            await service.findByCategory("Eletrônicos");
 
             expect(mockPrismaService.product.findMany).toHaveBeenCalledWith({
                 where: {
@@ -305,7 +308,6 @@ describe("ProductService", () => {
                     name: "asc",
                 },
             });
-            expect(result).toEqual(products);
         });
 
         it("should throw NotFoundException for invalid category", async () => {

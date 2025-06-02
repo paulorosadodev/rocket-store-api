@@ -31,7 +31,66 @@ model Product {
     quantity    Int             @default(0)
     createdAt   DateTime        @default(now())
     updatedAt   DateTime        @updatedAt
+    
+    // Relations
+    cartItems   CartItem[]
+    orderItems  OrderItem[]
 
     @@map("products")
+}
+
+model Cart {
+    id        String     @id @default(cuid())
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    
+    // Relations
+    items     CartItem[]
+
+    @@map("carts")
+}
+
+model CartItem {
+    id        String   @id @default(cuid())
+    cartId    String
+    productId String
+    quantity  Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    
+    // Relations
+    cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+    product   Product  @relation(fields: [productId], references: [id])
+    
+    @@unique([cartId, productId])
+    @@map("cart_items")
+}
+
+model Order {
+    id        String      @id @default(cuid())
+    total     Float
+    createdAt DateTime    @default(now())
+    updatedAt DateTime    @updatedAt
+    
+    // Relations
+    items     OrderItem[]
+
+    @@map("orders")
+}
+
+model OrderItem {
+    id        String   @id @default(cuid())
+    orderId   String
+    productId String
+    quantity  Int
+    price     Float    
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    
+    // Relations
+    order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    product   Product  @relation(fields: [productId], references: [id])
+
+    @@map("order_items")
 }
 
