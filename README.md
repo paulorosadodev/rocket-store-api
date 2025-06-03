@@ -15,6 +15,7 @@ Uma API completa para gerenciamento de loja virtual construída com NestJS, Pris
 - [Testes](#-testes)
 - [Estrutura do Projeto](#-estrutura-do-projeto)
 - [Scripts Disponíveis](#-scripts-disponíveis)
+- [Testando a API](#-testando-a-api-com-insomnia)
 - [Licença](#-licença)
 
 ## ✨ Características
@@ -317,6 +318,17 @@ curl -X POST http://localhost:3000/carts/{cartId}/items \
 ```bash
 curl -X POST http://localhost:3000/orders/checkout/{cartId}
 ```
+
+## 🌐 Testando a API com Insomnia
+
+Para facilitar o teste dos endpoints da API, disponibilizei o arquivo `Insomnia.json`. Este arquivo contém todas as requisições configuradas para os endpoints da Rocket Store API.
+
+### Como usar:
+1. Importe o arquivo de Collection `Insomnia.json` no Insomnia.
+2. Configure o ambiente base (`base_url`) para `http://localhost:3000`.
+3. Utilize as requisições pré-configuradas para testar os endpoints.
+
+---
 
 ## 🔒 Validações
 
