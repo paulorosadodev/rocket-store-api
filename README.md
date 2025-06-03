@@ -343,4 +343,4 @@ Este projeto está sob a licença UNLICENSED. Veja o arquivo [LICENSE](LICENSE) 
 
 ---
 
-**Desenvolvido com 💜 para a Rocketlab**
+<p align="center">Feito com 💜 para a Rocket Lab</p>
